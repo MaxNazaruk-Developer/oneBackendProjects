@@ -19,8 +19,8 @@ public with sharing class getObjectController {
     public static String getObject(){
         Map<String, Schema.SObjectType> getAllObjectWithOrg = Schema.getGlobalDescribe();
         List<dataObject> arraySelectObject = new List<dataObject>();
-        for (String nameObjcet : getAllObjectWithOrg.keySet()) {            
-            SObjectType oneObject = Schema.getGlobalDescribe().get(nameObjcet);                        
+        for (String nameObject : getAllObjectWithOrg.keySet()) {            
+            SObjectType oneObject = Schema.getGlobalDescribe().get(nameObject);                        
             Schema.DescribeSObjectResult objectDescription = oneObject.getDescribe();              
             if(objectDescription.isSearchable() == true) {
                 dataObject wrapperObj = new dataObject();
@@ -34,7 +34,7 @@ public with sharing class getObjectController {
     }   
 
     @AuraEnabled(cacheable=true)
-    public static String getInformationAbouttSobject(String nameSelectObject) {        
+    public static String getInformationAboutSobject(String nameSelectObject) {        
         List<Schema.DescribeTabSetResult> tabSetDesc = Schema.describeTabs();
         List<Schema.DescribeTabResult> tabDesc = new List<Schema.DescribeTabResult>();
         List<Schema.DescribeIconResult> iconDesc = new List<Schema.DescribeIconResult>();
@@ -46,15 +46,15 @@ public with sharing class getObjectController {
                 iconDesc.addAll(tr.getIcons());                
             }
         }
-        String urlAddressImag;
+        String urlAddressImage;
         for (Schema.DescribeIconResult ir : iconDesc) {           
             if (ir.getContentType() == 'image/svg+xml'){
-                urlAddressImag = ir.getUrl();
-                urlAddressImag = urlAddressImag.substringBetween('https://maksdeveloper-dev-ed.my.salesforce.com','.svg');                 
+                urlAddressImage = ir.getUrl();
+                urlAddressImage = urlAddressImage.substringBetween('https://maksdeveloper-dev-ed.my.salesforce.com','.svg');                 
                 break;
             }
         }        
-        return urlAddressImag + '_120.png';      
+        return urlAddressImage + '_120.png';      
     }
 
     @AuraEnabled(cacheable=true)

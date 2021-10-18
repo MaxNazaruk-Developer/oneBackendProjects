@@ -1,6 +1,6 @@
 import { LightningElement, wire, track } from 'lwc';
 import getObject from '@salesforce/apex/getObjectController.getObject';
-import getInformationAbouttSobject from '@salesforce/apex/getObjectController.getInformationAbouttSobject';
+import getInformationAboutSobject from '@salesforce/apex/getObjectController.getInformationAboutSobject';
 import getFieldsObject from '@salesforce/apex/getObjectController.getFieldsObject';
 
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
@@ -65,7 +65,7 @@ export default class SelectObjectWithList extends LightningElement {
         this.editObject = this.dataCombobox.find(
             item => item.value == event.detail.value
         );        
-        getInformationAbouttSobject({ 
+        getInformationAboutSobject({ 
             nameSelectObject: this.editObject.value 
         })
         .then(result => {
