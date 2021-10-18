@@ -1,0 +1,40 @@
+<template>
+    <div class="box-conteiner">
+        <div class="box-combobox-information">
+            <div class="box-inner-container">
+                <div class="box-combobox">    
+                    <lightning-combobox 
+                        name="progress"
+                        label="Selected object"
+                        value={value}
+                        placeholder="Select object"
+                        options={options}
+                        onchange={handleChange}>
+                    </lightning-combobox>
+                </div>
+                <div if:true={showIconBlock} class="box-information">            
+                    <div if:true={showIcon} class="conteiner-information-icon">
+                        <span class="slds-icon_container slds-icon-standard-account box-icon">            
+                            <img class="icon" src={urlIcon}></img>
+                        </span>
+                    </div>
+                    <div class="conteiner-information-text"> 
+                        <p>Label: {editObject.label}</p>
+                        <p>Name: {editObject.value}</p>
+                        <p>KeyPrefix: {editObject.keyPrefix}</p>
+                    </div>                                           
+                </div>
+            </div>
+        </div>
+        <div if:true={showIconBlock} class="box-datatable">
+            <div style="height: 300px;">
+                <lightning-datatable 
+                    hide-checkbox-column
+                    key-field="id"
+                    data={data}
+                    columns={columns}>
+                </lightning-datatable>
+            </div> 
+        </div>
+    </div>      
+</template>
