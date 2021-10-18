@@ -23,10 +23,8 @@ public with sharing class getObjectControllerTest {
         
         List<dataObject> allObject = (List<dataObject>) JSON.deserialize(valueController, List<dataObject>.class);
         for (dataObject variable : allObject) {
-            if (variable.label == 'Account') {
-                System.assertEquals(variable.label, 'Account');
-                System.assertEquals(variable.value, 'Account');
-                System.assertEquals(variable.keyPrefix, '001');              
+            if (variable.value == 'Account') {
+                System.assertEquals(variable.label, 'Account', 'Verification of received objects');                          
             }
         }      
     }
@@ -51,12 +49,8 @@ public with sharing class getObjectControllerTest {
         List<objectField> contactFields = (List<objectField>) JSON.deserialize(valueController, List<objectField>.class);         
         for (objectField variable : contactFields) {
             if (variable.name == 'Id') {
-                System.assertEquals(variable.label, 'Account ID');
-                System.assertEquals(variable.name, 'Id');
-                System.assertEquals(variable.accessible, true);
-                System.assertEquals(variable.compound, false);
-                System.assertEquals(variable.relationshipName, null);
-                System.assertEquals(variable.type, 'ID');
+                System.assertEquals(variable.label, 'Account ID', 'Checking the received object fields');
+                
             }
         }       
     }
