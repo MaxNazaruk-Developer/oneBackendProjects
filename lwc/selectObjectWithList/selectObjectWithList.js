@@ -3,6 +3,8 @@ import getObject from '@salesforce/apex/getObjectController.getObject';
 import getInformationAbouttSobject from '@salesforce/apex/getObjectController.getInformationAbouttSobject';
 import getFieldsObject from '@salesforce/apex/getObjectController.getFieldsObject';
 
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+
 const columns = [
     { label: 'Label', fieldName: 'label' },
     { label: 'Name', fieldName: 'name'},
@@ -49,7 +51,14 @@ export default class SelectObjectWithList extends LightningElement {
                   return -1; }
                 return 0;
             });                        
-        }       
+        } else if (error) { 
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error!!',
+                message: error.message,
+                variant: 'error'
+            }));           
+            this.dataCombobox = undefined;
+        }         
     }
 
     handleChange(event) {               
@@ -58,15 +67,19 @@ export default class SelectObjectWithList extends LightningElement {
         );        
         getInformationAbouttSobject({ 
             nameSelectObject: this.editObject.value 
-        }).then(result => {            
-                if (result == "null_120.png") {
-                    this.showIcon = false;
-                    this.urlIcon = result;
-                } else {                    
-                    this.urlIcon = result;
-                    this.showIcon = true;
-                }                
-            })            
+        })
+        .then(result => {
+            this.urlIcon = result;
+            console.log(this.urlIcon);
+            this.showIcon = (result != "null_120.png");                          
+        }) 
+        .catch((error) => {
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error!!',
+                message: error.message,
+                variant: 'error'
+            })); 
+        })             
         this.callControllerForDataGetFields(this.editObject.value);
         this.showIconBlock = true;                    
     }     
@@ -74,7 +87,8 @@ export default class SelectObjectWithList extends LightningElement {
     callControllerForDataGetFields(valueObject) {        
         getFieldsObject({ 
             nameSelectObjectForField: valueObject
-        }).then(result => {            
+        })
+        .then(result => {            
             this.data = JSON.parse(result).sort(function(a, b) {
                 if (a.label > b.label) {
                   return 1; }
@@ -82,6 +96,13 @@ export default class SelectObjectWithList extends LightningElement {
                   return -1; }
                 return 0;
             });                                    
+        })
+        .catch((error) => {
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error!!',
+                message: error.message,
+                variant: 'error'
+            })); 
         })        
     }
 }
